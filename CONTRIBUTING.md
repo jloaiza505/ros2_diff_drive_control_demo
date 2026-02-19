@@ -1,31 +1,35 @@
 # Contributing
 
-## Prerequisites
-- ROS 2 Jazzy
-- `colcon`
-- `rosdep`
+## Branching Strategy
+- `main`: stable, protected
+- `feature/<name>`: new features
+- `fix/<name>`: bug fixes
 
-## Setup
-```bash
-source /opt/ros/jazzy/setup.bash
-rosdep update
-rosdep install --from-paths src --ignore-src -r -y
-```
+## Development Workflow
+1. Create a feature branch from `main`.
+2. Implement changes.
+3. Ensure:
+   - `colcon build --base-paths src` succeeds
+   - `colcon test --base-paths src` passes
+   - No lint errors
+4. Open a Pull Request.
 
-If switching from a Humble-built workspace to Jazzy:
-```bash
-rm -rf build install log
-```
+## Code Style
+- C++: `ament_cmake` + `clang-format`
+- Python: `black` + PEP8
+- Follow `.editorconfig` rules
 
-## Build and Test
-```bash
-source /opt/ros/jazzy/setup.bash
-colcon build --base-paths src
-source install/setup.bash
-colcon test --base-paths src
-colcon test-result --verbose
-```
+## Commit Messages
+Use concise, imperative style:
+- Add control node
+- Fix parameter parsing
+- Refactor launch structure
 
-## Style
-- Keep package metadata (`package.xml`, `CMakeLists.txt`) in sync.
-- Keep launch/config changes documented in `README.md`.
+## Testing
+All new features must include:
+- Unit tests when applicable
+- Launch verification
+- No regression failures
+
+## CI
+Pull requests must pass CI before merge.
